@@ -1,7 +1,7 @@
 import axiosCilent from "apis/axiosClient";
 import coursesAPI from "apis/coursesAPI";
 import useRequest from "hooks/useRequest";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const Header = () => {
@@ -22,7 +22,7 @@ const Header = () => {
       <h1>Header</h1>
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Dropdown Button
+          Danh Sách khóa học
         </Dropdown.Toggle>
         {listCourses.data.map((courses) => {
           return (

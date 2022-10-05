@@ -21,6 +21,7 @@ const Courses = () => {
       return <div key={courses.maKhoaHoc}> 
       {courses.tenKhoaHoc}
       <img src={courses.hinhAnh} alt={courses.tenKhoaHoc} srcset="" />
+      <button className='btn btn-warning'>chi tiet</button>
       </div>
     })}</div>
   )
