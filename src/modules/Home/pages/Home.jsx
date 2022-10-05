@@ -4,7 +4,7 @@ import Courses from "../components/Courses/Courses";
 
 const Home = () => {
   return (
-    <>
+    <>    
       <Banner />
       <Courses />
     </>

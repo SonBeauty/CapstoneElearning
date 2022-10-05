@@ -4,9 +4,13 @@ const coursesAPI = {
     getCourses: () => {
         return axiosCilent.get("QuanLyKhoaHoc/LayDanhSachKhoaHoc", {
             params: {
-                maNhom: "GP05",
+                maNhom: "GP01",
             }
         })
+    },
+
+    getListCourses: () => {
+        return axiosCilent.get("QuanLyKhoaHoc/LayDanhMucKhoaHoc")
     }
 }
 
