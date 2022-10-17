@@ -24,7 +24,7 @@ const Header = () => {
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           Danh Sách khóa học
         </Dropdown.Toggle>
-        {listCourses.data.map((courses) => {
+        {listCourses.map((courses) => {
           return (
             <>
               <Dropdown.Menu>

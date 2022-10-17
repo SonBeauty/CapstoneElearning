@@ -1,7 +1,8 @@
 import axios from "axios"
+import store from '../store'
 
 
-const axiosCilent = axios.create({
+const axiosClient = axios.create({
     baseURL: "https://elearningnew.cybersoft.edu.vn/api/",
     headers: {
         TokenCybersoft:
@@ -9,4 +10,21 @@ const axiosCilent = axios.create({
     }
 })
 
-export default axiosCilent
+axiosClient.interceptors.request.use((config) => {
+    const { accessToken } = store.getState().auth.user || {}
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`
+    }
+    return config
+})
+
+axiosClient.interceptors.response.use(
+    (response) => {
+        return response.data
+    },
+    (error) => {
+        return Promise.reject(error.response?.data)
+    }
+)
+
+export default axiosClient

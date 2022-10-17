@@ -1,0 +1,37 @@
+.ant-layout-sider-zero-width-trigger.ant-layout-sider-zero-width-trigger-left {
+  top: 0;
+  height: 64px;
+}
+
+.anticon.anticon-bars,
+.anticon.anticon-bars svg {
+  height: 100%;
+  font-size:30px;
+}
+
+
+a#logout:hover,a#toHome:hover{
+    background:#1890ff;
+    color:white;
+
+
+}
+
+a#logout,a#toHome{
+    width:100%;
+    display:block;
+    height:30px
+}
+
+h3:hover{
+    cursor: pointer;
+}
+
+
+.ant-layout-header.site-layout-background{
+  height: 64px;
+  padding: 0 50px;
+  color: rgba(0,0,0,.85);
+  line-height: 64px;
+  background: #001529;
+}
