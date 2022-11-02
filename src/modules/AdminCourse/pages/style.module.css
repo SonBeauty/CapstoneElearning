@@ -3,5 +3,8 @@ ant-form-item-control-input{
   margin-left:14px;
 }
 
+.ant-popover-content .ant-popover-arrow{
+  left:60%
+}
 
 

@@ -8,52 +8,54 @@ import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
+import courseAPI from 'apis/courseAPI';
 
 
-const CreateShowTime = () => {
+const CourseReg = () => {
+
 
     const [edit, setEdit] = useState(null)
     const [change, setChange] = useState(false)
 
-    const { data: cinema } = useRequest(() => movieAPI.getCinema(), { deps: [change] })
-    const { data: movie, isLoading, error } = useRequest(() => movieAPI.getMovieDetails(movieId), { deps: [change] })
-    const { data: subCinema } = useRequest(() => movieAPI.getSubCinema(edit?.maHeThongRap), { deps: [edit?.maHeThongRap] })
+    const { data: course } = useRequest(() => courseAPI.getCourseDetails(courseId), { deps: [change] })
+    // const { data: movie, isLoading, error } = useRequest(() => movieAPI.getMovieDetails(movieId), { deps: [change] })
+    // const { data: subCinema } = useRequest(() => movieAPI.getSubCinema(edit?.maHeThongRap), { deps: [edit?.maHeThongRap] })
 
-    useEffect(() => {
-        setEdit({ tenHeThongRap: cinema?.[0].tenHeThongRap, maHeThongRap: cinema?.[0].maHeThongRap })
-        setValue("maPhim", movie?.maPhim)
-
-
-
-
-    }, [cinema])
-    useEffect(() => {
-        setEdit({ ...edit, tenCumRap: subCinema?.[0].tenCumRap, maCumRap: subCinema?.[0].maCumRap })
-
-    }, [subCinema])
-
-
-    useEffect(() => {
-
-        const name = cinema?.find((cine) => { return cine.tenHeThongRap === edit?.tenHeThongRap })
-        console.log(name)
-        setEdit({
-            ...edit, maHeThongRap: name?.maHeThongRap
-        }
+    // useEffect(() => {
+    //     setEdit({ tenHeThongRap: cinema?.[0].tenHeThongRap, maHeThongRap: cinema?.[0].maHeThongRap })
+    //     setValue("maPhim", movie?.maPhim)
 
 
 
-        )
-    }, [edit?.tenHeThongRap])
+
+    // }, [cinema])
+    // useEffect(() => {
+    //     setEdit({ ...edit, tenCumRap: subCinema?.[0].tenCumRap, maCumRap: subCinema?.[0].maCumRap })
+
+    // }, [subCinema])
 
 
-    useEffect(() => {
-        const name = subCinema?.find((cine) => { return cine.tenCumRap === edit?.tenCumRap })
-        setEdit({ ...edit, maRap: name?.maCumRap })
-        setValue("maRap", name?.maCumRap)
+    // useEffect(() => {
+
+    //     const name = cinema?.find((cine) => { return cine.tenHeThongRap === edit?.tenHeThongRap })
+    //     console.log(name)
+    //     setEdit({
+    //         ...edit, maHeThongRap: name?.maHeThongRap
+    //     }
 
 
-    }, [edit?.tenCumRap])
+
+    //     )
+    // }, [edit?.tenHeThongRap])
+
+
+    // useEffect(() => {
+    //     const name = subCinema?.find((cine) => { return cine.tenCumRap === edit?.tenCumRap })
+    //     setEdit({ ...edit, maRap: name?.maCumRap })
+    //     setValue("maRap", name?.maCumRap)
+
+
+    // }, [edit?.tenCumRap])
 
     const { data: handleCreateShowtime } = useRequest((values) => movieAPI.createShowtime(values), { isManual: true })
 
@@ -71,7 +73,7 @@ const CreateShowTime = () => {
 
     const { form } = Form.useForm()
 
-    const { movieId } = useParams()
+    const { courseId } = useParams()
 
     const { register, handleSubmit, setValue, control } = useForm({
         defaultValues: {
@@ -132,15 +134,15 @@ const CreateShowTime = () => {
 
                 </Breadcrumb>
 
-                <h1>Tạo lịch chiếu - {movie?.tenPhim}</h1>
-                <img src={movie?.hinhAnh} alt="preview" className='d-flex mx-auto mb-3 h-50 w-50' />
+                <h1>Ghi danh khoá học - {course?.tenKhoaHoc}</h1>
+                <img src={course?.hinhAnh} alt="preview" className='d-flex mx-auto mb-3 h-50 w-50' />
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className='d-flex mb-3 w-75 mx-auto align-items-center'>
                         <Controller
                             name='maPhim'
                             control={control}
-                            value={movie?.maPhim}
+                            // value={movie?.maPhim}
                             render={({ field, fieldState: { error } }) => (
                                 <></>
                             )}
@@ -153,11 +155,7 @@ const CreateShowTime = () => {
                         <Form.Item>
                             <Select value={edit?.tenHeThongRap}
                                 onChange={(value) => handleSelectBox(value)} >
-                                {cinema?.map((e) => {
-                                    return <Select.Option value={e.tenHeThongRap} > {e.tenHeThongRap}</Select.Option>
-                                })}
-                                {/* <Select.Option value='KhachHang'>KhachHang</Select.Option>
-                            <Select.Option value='QuanTri'>QuanTri</Select.Option> */}
+                               
                             </Select>
                             </Form.Item>
                     </div>
@@ -165,15 +163,13 @@ const CreateShowTime = () => {
                         <label className='form-label  ' style={{ width: "10em" }} >Cụm rạp:</label>
                         <Controller control={control} name="maRap"
 
-                            render={({ field, fieldState = { error } }) => (
+                            render={({ field }) => (
                                 <Form.Item>
 
                                     <Select
                                         value={edit?.tenCumRap}
                                         onChange={(value) => { return handleSelectBox2(value), field.onChange(value) }} >
-                                        {subCinema?.map((e) => {
-                                            return <Select.Option value={e.tenCumRap} > {e.tenCumRap}</Select.Option>
-                                        })}
+                                      
 
                                     </Select>
                                 </Form.Item>
@@ -270,7 +266,7 @@ const CreateShowTime = () => {
                             htmlType='submit'
 
                         >
-                            Tạo lịch chiếu</Button>
+                          Ghi danh</Button>
                     </div>
 
                 </form>
@@ -280,4 +276,4 @@ const CreateShowTime = () => {
     );
 };
 
-export default CreateShowTime
+export default CourseReg

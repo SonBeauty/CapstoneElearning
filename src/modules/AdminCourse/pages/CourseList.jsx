@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import DeleteComponent from '../DeleteComponent'
+import DeleteComponent from './DeleteComponent'
 
 
 
@@ -203,21 +203,14 @@ const CourseList = () => {
             <EditOutlined onClick={() => handleEdit(course)} style={{ color: "blue", fontSize: '25px' }} />
           </Tooltip>
 
-         
-            {/* <Tooltip
-              title="Xoá"
-              overlayStyle={{ marginLeft: "45px" }}
-            >
-              <DeleteOutlined onClick={() => { }}
-                style={{ color: "red", fontSize: '25px', marginLeft: '30px' }} />
-            </Tooltip> */}
+        
             <DeleteComponent course={course} change={()=>setChange(!change)}></DeleteComponent>
 
           <Tooltip
-            title="Tạo lịch chiếu"
+            title="Ghi danh"
             overlayStyle={{ marginLeft: "45px" }}
           >
-            <CalendarOutlined onClick={() => { navigate(`/ admin / showtime / ${course.maPhim}`) }} style={{ color: "green", fontSize: '25px', marginLeft: '30px' }} />
+            <CalendarOutlined onClick={() => { navigate(`/admin/course/${course.maKhoaHoc}`) }} style={{ color: "green", fontSize: '25px', marginLeft: '30px' }} />
           </Tooltip >
         </div >
       }

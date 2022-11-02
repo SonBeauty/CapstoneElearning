@@ -13,7 +13,7 @@ import Register from 'modules/Authentication/pages/Register';
 import CourseList from "modules/AdminCourse/pages/CourseList"
 import User from "modules/AdminCourse/pages/User"
 import AddCourse from 'modules/AdminCourse/pages/AddCourse'
-import CreateShowTime from 'modules/AdminCourse/pages/CreateShowTime'
+import CourseReg from 'modules/AdminCourse/pages/CourseReg';
 
 
 
@@ -41,7 +41,7 @@ function App() {
 
             <Route path="user" element={<User />} />
             <Route path="courses" element={<CourseList />} />
-            <Route path="showtime/:movieId" element={<CreateShowTime />} />
+            <Route path="course/:courseId" element={<CourseReg />} />
             <Route path="addCourse" element={<AddCourse />} />
 
           </Route>

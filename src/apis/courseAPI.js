@@ -18,6 +18,9 @@ const courseAPI = {
     },
     addCourse: (values) => {
         return axiosClient.post('QuanLyKhoaHoc/ThemKhoaHoc', values)
+    },
+    getCourseDetails: (courseId) => {
+        return axiosClient.get('QuanLyKhoaHoc/LayThongTinKhoaHoc', { params: { maKhoaHoc: courseId } })
     }
 }
 

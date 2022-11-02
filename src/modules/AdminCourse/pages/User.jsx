@@ -9,6 +9,7 @@ import uuid from 'react-uuid'
 import AddUserModal from './AddUserModal'
 import { EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
+import DeleteComponent from './DeleteComponent'
 
 
 
@@ -57,6 +58,7 @@ const User = () => {
 
 
   const handleDelete = async (user) => {
+    
     try {
 
       await axiosClient.delete(`QuanLyNguoiDung/XoaNguoiDung/`, { params: { TaiKhoan: user.taiKhoan } })
@@ -141,17 +143,17 @@ const User = () => {
       title: "Hành động",
       render: (user) => <div className='d-flex flex-wrap'>
 
-        <Tooltip title='Ghi danh'>
-          <CalendarOutlined onClick={() => { navigate(`/admin/enroll/`) }} style={{ color: "green", fontSize: '25px' }} />
-        </Tooltip>
+
         <Tooltip title='Sửa'>
-          <EditOutlined onClick={() => handleEdit(user)} style={{ color: "blue", fontSize: '25px', marginLeft: '30px' }} />
+          <EditOutlined onClick={() => handleEdit(user)} style={{ color: "blue", fontSize: '25px' }} />
         </Tooltip>
-        <Tooltip title='Xoá' overlayStyle={{ marginLeft: "45px" }}        >
+        {/* <Tooltip title='Xoá' overlayStyle={{ marginLeft: "45px" }}        >
           <DeleteOutlined onClick={() => handleDelete(user)} style={{ color: "red", fontSize: '25px', marginLeft: '30px' }} />
+        </Tooltip> */}
+        <DeleteComponent user={user} change={()=>setChange(!change)} type={"user"}></DeleteComponent>
+        <Tooltip title='Ghi danh'>
+          <CalendarOutlined onClick={() => { navigate(`/admin/enroll/`) }} style={{ color: "green", fontSize: '25px', marginLeft: '30px' }} />
         </Tooltip>
-
-
       </div>,
 
 
@@ -379,7 +381,7 @@ const User = () => {
 
 
         <h1>Quản lý người dùng</h1>
-        <Input placeholder="Basic usage"
+        <Input placeholder="Tìm kiếm theo tên"
           id="searchBar"
           onChange={(value) => {
             document.getElementById('searchBar').onkeydown = (e) => {
