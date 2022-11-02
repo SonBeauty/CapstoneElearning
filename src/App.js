@@ -10,10 +10,10 @@ import Home from "./modules/Home/pages/Home";
 import AuthLayout from 'components/AuthLayout';
 import Login from 'modules/Authentication/pages/Login';
 import Register from 'modules/Authentication/pages/Register';
-const User = lazy(() => import("modules/AdminCourse/pages/User"));
-const MovieList = lazy(() => import("modules/AdminCourse/pages/MovieList"));
-const CreateShowTime = lazy(() => import('modules/AdminCourse/pages/CreateShowTime'));
-const AddMovie = lazy(() => import('modules/AdminCourse/pages/AddMovie'));
+import CourseList from "modules/AdminCourse/pages/CourseList"
+import User from "modules/AdminCourse/pages/User"
+import AddCourse from 'modules/AdminCourse/pages/AddCourse'
+import CreateShowTime from 'modules/AdminCourse/pages/CreateShowTime'
 
 
 
@@ -40,9 +40,9 @@ function App() {
           >
 
             <Route path="user" element={<User />} />
-            <Route path="movies" element={<MovieList />} />
+            <Route path="courses" element={<CourseList />} />
             <Route path="showtime/:movieId" element={<CreateShowTime />} />
-            <Route path="addmovie" element={<AddMovie />} />
+            <Route path="addCourse" element={<AddCourse />} />
 
           </Route>
 

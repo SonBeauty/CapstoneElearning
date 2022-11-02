@@ -123,7 +123,7 @@ const Login = () => {
             style={{ justifyContent: 'center' }}
 
             name="matKhau"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: false, message: 'Please input your password!' }]}
           >
 
             <Input.Password style={{ height: "50px" }} placeholder="Mật khẩu" />

@@ -158,7 +158,8 @@ const CreateShowTime = () => {
                                 })}
                                 {/* <Select.Option value='KhachHang'>KhachHang</Select.Option>
                             <Select.Option value='QuanTri'>QuanTri</Select.Option> */}
-                            </Select></Form.Item>
+                            </Select>
+                            </Form.Item>
                     </div>
                     <div className='d-flex mb-3 w-75 mx-auto align-items-center'>
                         <label className='form-label  ' style={{ width: "10em" }} >Cụm rạp:</label>

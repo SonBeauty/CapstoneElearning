@@ -1,4 +1,3 @@
-import coursesAPI from 'apis/coursesAPI';
 import useRequest from 'hooks/useRequest';
 import React, { useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux'

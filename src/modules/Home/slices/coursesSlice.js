@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import coursesAPI from "apis/coursesAPI"
+import courseAPI from "apis/courseAPI"
 
 const initialState = {
     courses: [],
@@ -10,7 +10,7 @@ const initialState = {
 export const getCourses = createAsyncThunk("home/courses/getCourses",
     async (_, { rejecWithValue }) => {
         try {
-            const { data } = await coursesAPI.getCourses()
+            const { data } = await courseAPI.getCourses()
             return data
         } catch (error) {
             rejecWithValue(error.response.data)

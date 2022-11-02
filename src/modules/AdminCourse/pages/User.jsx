@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Input, Layout, Modal, notification, Select, Table, Tooltip } from 'antd'
+import { Breadcrumb, Button, Form, Input, Layout, Modal, notification, Select, Spin, Table, Tooltip } from 'antd'
 import { Content, Footer } from 'antd/lib/layout/layout'
 import axiosClient from 'apis/axiosClient'
 import userAPI from 'apis/userAPI'
@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form'
 import uuid from 'react-uuid'
 import AddUserModal from './AddUserModal'
 import { EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -20,34 +21,40 @@ const User = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [change, setChange] = useState(true)
   const [searchText, setSearchText] = useState(null)
-  const [data2,setData2] = useState(null)
+  const [data2, setData2] = useState(null)
+  const [dataSource, setDataSource] = useState(null)
+  const [searchValue, setSearchValue] = useState(null)
+  const [form] = Form.useForm()
+
 
 
   //==============================
 
-  // const onSearch = (e) => {
-  //   const reg = new RegExp(e.target.value, 'gi');
-  //   const filteredData = map(data, record => {
-  //     const userNameMatch = get(record, "fieldtext.userName").match(reg)
-  //     if (!userNameMatch) {
-  //       return null;
-
-  //     }
-  //     return record
-  //   }).filter(record => !!record)
-
-  //   setSearchText(e.target.value)
-  //   users
-
-  // }
 
 
 
-  const handleEdit = (user) => {
+
+  const navigate = useNavigate()
+
+  const handleEdit = async (user) => {
     setVisible(true)
     setEdit(user)
 
+
+
   }
+
+
+  useEffect(() => {
+    form.setFieldsValue({
+      hoTen: edit?.hoTen,
+      email: edit?.email,
+      soDt: edit?.soDt
+
+    })
+  }, [edit])
+
+
 
   const handleDelete = async (user) => {
     try {
@@ -70,12 +77,13 @@ const User = () => {
     data: users,
     isLoading,
     error,
-  } = useRequest(() => userAPI.getUsers(), { deps: [change] })
+  } = useRequest(() => userAPI.getUsers(searchValue ? searchValue : null), { deps: [change, searchValue] })
 
 
-useEffect(() =>{
-  setData2(users)    
-},[users])
+  useEffect(() => {
+    setData2(users)
+    setDataSource(users)
+  }, [users])
 
 
 
@@ -89,6 +97,7 @@ useEffect(() =>{
       sorter: (a, b) => users.indexOf(a) - users.indexOf(b),
       sortDirections: ['descend'],
 
+      width: "5%"
 
 
     },
@@ -132,8 +141,11 @@ useEffect(() =>{
       title: "Hành động",
       render: (user) => <div className='d-flex flex-wrap'>
 
+        <Tooltip title='Ghi danh'>
+          <CalendarOutlined onClick={() => { navigate(`/admin/enroll/`) }} style={{ color: "green", fontSize: '25px' }} />
+        </Tooltip>
         <Tooltip title='Sửa'>
-          <EditOutlined onClick={() => handleEdit(user)} style={{ color: "blue", fontSize: '25px' }} />
+          <EditOutlined onClick={() => handleEdit(user)} style={{ color: "blue", fontSize: '25px', marginLeft: '30px' }} />
         </Tooltip>
         <Tooltip title='Xoá' overlayStyle={{ marginLeft: "45px" }}        >
           <DeleteOutlined onClick={() => handleDelete(user)} style={{ color: "red", fontSize: '25px', marginLeft: '30px' }} />
@@ -172,7 +184,6 @@ useEffect(() =>{
 
 
   const onSubmitSuccess = () => {
-    console.log("lmao")
     setChange(!change)
   }
 
@@ -233,105 +244,162 @@ useEffect(() =>{
 
         <AddUserModal isOpen={isOpen} onClose={onClose} onSubmitSuccess={onSubmitSuccess}></AddUserModal>
 
+
         <Modal
           confirmLoading={confirmLoading}
 
           title='Cập nhật người dùng'
           visible={visible}
-          onCancel={() => setVisible(false)}
-          onOk={async () => {
-            onSubmit(edit)
-            setConfirmLoading(true);
-            setTimeout(() => {
-              setVisible(false);
-              setConfirmLoading(false);
-            }, 1000);
+          onCancel={() => { setVisible(false); form.resetFields() }}
+          onOk={
+            () => {
+              form.validateFields()
+                .then(() => {
+                  onSubmit(edit)
+                  setConfirmLoading(true);
 
-          }}
+                  setTimeout(() => {
+                    setVisible(false);
+                    setConfirmLoading(false);
+                  }, 1000);
+
+
+
+                  form.resetFields()
+                })
+
+
+
+
+            }
+          }
 
           okText='Cập nhật'
           cancelText='Huỷ'
 
 
         >
+          <Form form={form}>
+            <Form.Item>
+              <Input
 
+                addonBefore={"Tài khoản"}
+                value={edit?.taiKhoan}
+                disabled={true}
 
-          <Input
+              />
+            </Form.Item>
 
-            addonBefore={"Tài khoản"}
-            value={edit?.taiKhoan}
-            disabled={true}
+            <Form.Item
+              name='password'
+              rules={[{ required: true, message: 'Mật khẩu không được để trống' }]}
+            >
+              <Input
 
-          />
-
-          <Input
-
-            addonBefore={"Mật khẩu"}
-            value={edit?.matKhau}
-            onChange={(e) => {
-              setEdit((pre) => {
-                return { ...pre, matKhau: e.target.value };
-              });
-            }}
-
-
-
-          />
-
-          <Input
-
-            addonBefore={"Họ tên"}
-            value={edit?.hoTen}
-            onChange={(e) => {
-              setEdit((pre) => {
-                return { ...pre, hoTen: e.target.value };
-              });
-            }} />
-
-          <Input
-
-            addonBefore={"Email"}
-            value={edit?.email}
-            onChange={(e) => {
-              setEdit((pre) => {
-                return { ...pre, email: e.target.value };
-              });
-            }} />
-
-          <Input
-
-            addonBefore={"Số điện thoại"}
-            value={edit?.soDt}
-            onChange={(e) => {
-              setEdit((pre) => {
-                return { ...pre, soDT: e.target.value };
-              });
-            }} />
+                addonBefore={"Mật khẩu"}
+                value={edit?.matKhau}
+                onChange={(e) => {
+                  setEdit((pre) => {
+                    return { ...pre, matKhau: e.target.value };
+                  });
+                }}
 
 
 
-          <span className="ant-input-group-wrapper"
-          ><span className="ant-input-wrapper ant-input-group"
-          ><span className="ant-input-group-addon">Mã loại người dùng</span
-          ><Select value={edit?.maLoaiNguoiDung} onChange={(value) => handleSelectBox(value)} >
+              />
+            </Form.Item>
 
-                <Select.Option value='GV'>Giáo vụ</Select.Option>
-                <Select.Option value='HV'>Học viên</Select.Option>
-              </Select>
-            </span
-            ></span>
+            <Form.Item
+              name='hoTen'            >
+              <Input
+
+                addonBefore={"Họ tên"}
+                value={edit?.hoTen}
+                onChange={(e) => {
+                  setEdit((pre) => {
+                    return { ...pre, hoTen: e.target.value };
+                  });
+                }} />
+            </Form.Item>
+
+            <Form.Item
+              name='email'
+              rules={[
+                { type: 'email', message: "Email không đúng định dạng" },
+                { required: true, message: 'Email không được để trống' }
+              ]}
+
+            >
+
+              <Input
+                addonBefore={"Email"}
+                onChange={(e) => {
+                  setEdit((pre) => {
+                    return { ...pre, email: e.target.value };
+                  });
+                }} />
+            </Form.Item>
+
+            <Form.Item
+              name='soDt'
+              rules={[
+                { required: true, message: 'Số điện thoại không được để trống' }
+              ]}
+            >
+              <Input
+
+                addonBefore={"Số điện thoại"}
+                value={edit?.soDt}
+                onChange={(e) => {
+                  setEdit((pre) => {
+                    return { ...pre, soDt: e.target.value };
+                  });
+                }} />
+            </Form.Item>
 
 
+            <span className="ant-input-group-wrapper"
+            ><span className="ant-input-wrapper ant-input-group"
+            ><span className="ant-input-group-addon">Mã loại người dùng</span
+            ><Select value={edit?.maLoaiNguoiDung} onChange={(value) => handleSelectBox(value)} >
 
-          {/* </div> */}
+                  <Select.Option value='GV'>Giáo vụ</Select.Option>
+                  <Select.Option value='HV'>Học viên</Select.Option>
+                </Select>
+              </span
+              ></span>
+
+
+          </Form>
+
         </Modal>
+
+
+
+
+
         <h1>Quản lý người dùng</h1>
-        <Input placeholder="Basic usage" 
-        // onChange={onSearch} 
+        <Input placeholder="Basic usage"
+          id="searchBar"
+          onChange={(value) => {
+            document.getElementById('searchBar').onkeydown = (e) => {
+              if (e.key === "Enter") {
+                setSearchValue(value.target.value)
+              }
+            }
+            if (!value.target.value) {
+              setSearchValue(null)
+            }
+          }
+          }
         />
         <Table columns={columns}
-          dataSource={users}
-          onChange={onChange} rowKey={() => uuid()} />
+          dataSource={dataSource}
+          onChange={onChange} rowKey={() => uuid()
+          }
+          loading={isLoading}
+
+        />
       </Content>
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
     </>

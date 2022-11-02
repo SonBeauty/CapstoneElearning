@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 const AddUserModal = ({ isOpen = false, onClose, onSubmitSuccess }) => {
 
-    const [edit, setEdit] = useState({ maLoaiNguoiDung: "KhachHang" })
+    const [edit, setEdit] = useState({ maLoaiNguoiDung: "GV" })
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [change, setChange] = useState(true)
 
@@ -22,7 +22,7 @@ const AddUserModal = ({ isOpen = false, onClose, onSubmitSuccess }) => {
 
     const onSubmit = async (values) => {
         try {
-            await axiosClient.post("QuanLyNguoiDung/ThemNguoiDung", { ...values, maNhom: "GP00" }
+            await axiosClient.post("QuanLyNguoiDung/ThemNguoiDung", { ...values, maNhom: "GP01" }
 
             )
             notification.success({ message: 'Thêm người dùng thành công' })
@@ -204,8 +204,8 @@ const AddUserModal = ({ isOpen = false, onClose, onSubmitSuccess }) => {
                 <span className="ant-input-group-wrapper"
                 ><span className="ant-input-wrapper ant-input-group"
                 ><span className="ant-input-group-addon">Mã loại người dùng</span
-                ><Select defaultValue="KhachHang" onChange={(value) => handleSelectBox(value)} >
-
+                ><Select defaultValue="Giáo vụ" onChange={(value) => handleSelectBox(value)} >
+ 
                             <Select.Option value='GV'>Giáo vụ</Select.Option>
                             <Select.Option value='HV'>Học viên</Select.Option>
                         </Select>

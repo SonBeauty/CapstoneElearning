@@ -28,9 +28,9 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Quản lý người dùng', 'user', <UserOutlined />),
-    getItem('Quản lý phim', '', <FileOutlined />, [
-        getItem('Danh sách phim', 'movies', <FileOutlined />),
-        getItem('Thêm phim', 'addMovie', <FileOutlined />),
+    getItem('Quản lý khoá học', '', <FileOutlined />, [
+        getItem('Danh sách khoá học', 'courses', <FileOutlined />),
+        getItem('Thêm khoá học', 'addCourse', <FileOutlined />),
 
     ]),
 ];
