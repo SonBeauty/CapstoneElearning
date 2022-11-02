@@ -39,7 +39,7 @@ const AdminLayout = () => {
     const location = useLocation()
     const [collapsed, setCollapsed] = useState(false);
     const [current, setCurrent] = useState(location.pathname)
-    // const { user } = useSelector((state) => state.auth) // dang nhap
+    const { user } = useSelector((state) => state.auth) 
     const [open, setOpen] = useState(true)
 
     const navigate = useNavigate();
@@ -55,15 +55,15 @@ const AdminLayout = () => {
 
 
 
-    // if (!user) {
-    //     return <Navigate to='/login' />
-    // }
-    // else if (user?.maLoaiNguoiDung != "QuanTri") {
-    //     notification.error({
-    //         message:'Bạn không phải là quản trị viên'
-    //     })
-    //     return <Navigate to='/' />
-    // }
+    if (!user) {
+        return <Navigate to='/login' />
+    }
+    else if (user?.maLoaiNguoiDung != "GV") {
+        notification.error({
+            message:'Bạn không phải là quản trị viên'
+        })
+        return <Navigate to='/' />
+    }
 
     return (
         <>
